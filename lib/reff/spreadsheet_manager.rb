@@ -33,6 +33,12 @@ class SpreadsheetManager
     result
   end
 
+  #def self.import file
+  #  result = {}
+  #  result[:rows] = []
+  #  result[:errors] = {}
+  #end
+
   def self.open_spreadsheet file
     case File.extname(file.original_filename)
     when '.xls' then Roo::Spreadsheet.open(file.path, extension: :xls)

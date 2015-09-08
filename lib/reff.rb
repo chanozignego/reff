@@ -21,19 +21,6 @@ class Reff
     response
   end
 
-  #def self.import(file)
-  #  response = {}
-  #  if !file.nil?
-  #    response = SpreadsheetManager.import(file)
-  #  else
-  #    errors = {}
-  #    errors[:file] = "Not present file" unless file.nil?
-  #    response[:rows] = []
-  #    response[:errors] = errors
-  #  end
-  #  response
-  #end
-
 end
 
 class InvalidFileArgumentException < Exception; end

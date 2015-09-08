@@ -4,12 +4,13 @@ class SpreadsheetManager
     result[:rows] = []
     result[:errors] = {}
 
+    spreadsheet = open_spreadsheet(file)
+    
     begin
-      spreadsheet = open_spreadsheet(file)
       header = spreadsheet.row(1)
-    rescue Exception => e 
-      puts e.message
-      raise InvalidFileException, "Invalid file. Could not read file"
+    #rescue StandardError => e 
+    #  puts e.message
+    #  raise InvalidFileException, "Invalid file format. Could not read file"
     end
 
     (2..spreadsheet.last_row).each do |i|
@@ -18,12 +19,12 @@ class SpreadsheetManager
         begin
           result = model_attributes(row, attributes)
           if result.present?
-            result[:rows].push("#{i}": result) #TODO: el formato tiene que ser 1: {attributes: {}, errors: {}}
+            result[:rows].push("#{i}": result)
           else
             raise InvalidFileHeaderException, "Invalid file header. Could not read header"
           end
-        rescue => ex
-          raise UnreadableRowException, "Wrong number of arguments. Could not read content"
+        #rescue => ex
+        #  raise UnreadableRowException, "Wrong number of arguments. Could not read content"
         end
       else
         raise UnreadableRowException, "Wrong number of arguments. Could not read content"
@@ -32,12 +33,6 @@ class SpreadsheetManager
     
     result
   end
-
-  #def self.import file
-  #  result = {}
-  #  result[:rows] = []
-  #  result[:errors] = {}
-  #end
 
   def self.open_spreadsheet file
     case File.extname(file.original_filename)

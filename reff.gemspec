@@ -9,4 +9,7 @@ Gem::Specification.new do |s|
   s.files       = ["lib/reff.rb", "lib/reff/spreadsheet_manager.rb"]
   s.homepage    = 'http://rubygems.org/gems/reff'
   s.license     = 'UTN'
+
+  s.add_dependency 'roo', '~> 2.0.0'
+  s.add_dependency 'roo-xls'
 end

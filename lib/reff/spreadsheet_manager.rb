@@ -17,9 +17,9 @@ class SpreadsheetManager
       row = Hash[[header, spreadsheet.row(i)].transpose]
       if row.present?
         begin
-          result = model_attributes(row, attributes)
-          if result.present?
-            result[:rows] << {"#{i}": result}
+          response = model_attributes(row, attributes)
+          if response.present?
+            result[:rows] << {"#{i}": response}
           else
             raise InvalidFileHeaderException, "Invalid file header. Could not read header"
           end

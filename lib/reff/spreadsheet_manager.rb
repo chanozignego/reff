@@ -8,9 +8,9 @@ class SpreadsheetManager
     
     begin
       header = spreadsheet.row(1)
-    #rescue StandardError => e 
-    #  puts e.message
-    #  raise InvalidFileException, "Invalid file format. Could not read file"
+    rescue StandardError => e 
+      puts e.message
+      raise InvalidFileException, "Invalid file format. Could not read file"
     end
 
     (2..spreadsheet.last_row).each do |i|
@@ -23,8 +23,8 @@ class SpreadsheetManager
           else
             raise InvalidFileHeaderException, "Invalid file header. Could not read header"
           end
-        #rescue => ex
-        #  raise UnreadableRowException, "Wrong number of arguments. Could not read content"
+        rescue => ex
+          raise UnreadableRowException, "Wrong number of arguments. Could not read content"
         end
       else
         raise UnreadableRowException, "Wrong number of arguments. Could not read content"
@@ -43,9 +43,9 @@ class SpreadsheetManager
   end
 
   def self.model_attributes row, arguments
-    attributes = row.slice(*valid_attributes(attributes))
+    attributes = row.slice(*valid_attributes(arguments))
     errors = []
-    if attributes.length == valid_attributes(attributes).length
+    if attributes.length == valid_attributes(arguments).length
       arguments.each do |argument|
         if !attributes[argument].present?
           errors << "Attribute #{argument} is not present"

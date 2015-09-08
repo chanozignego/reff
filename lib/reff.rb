@@ -9,7 +9,7 @@ class Reff
     response[:errors] = {}
     errors = {}
     if file.present? || attributes.present?
-      if file.class == File
+      if file.class == ActionDispatch::Http::UploadedFile
         response = SpreadsheetManager.import(file, attributes)
       else   
         raise InvalidFileArgumentException, "Invalid file argument"

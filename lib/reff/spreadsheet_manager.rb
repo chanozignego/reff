@@ -19,7 +19,7 @@ class SpreadsheetManager
         begin
           result = model_attributes(row, attributes)
           if result.present?
-            result[:rows].push("#{i}": result)
+            result[:rows] << {"#{i}": result}
           else
             raise InvalidFileHeaderException, "Invalid file header. Could not read header"
           end
@@ -48,7 +48,7 @@ class SpreadsheetManager
     if attributes.length == valid_attributes(attributes).length
       arguments.each do |argument|
         if !attributes[argument].present?
-          errors.push "Attribute #{argument} is not present"
+          errors << "Attribute #{argument} is not present"
         end
       end
     else

@@ -3,15 +3,15 @@ class SpreadsheetManager
     result = {}
     result[:rows] = []
     result[:errors] = {}
+
     begin
       spreadsheet = open_spreadsheet(file)
       header = spreadsheet.row(1)
     rescue Exception => e 
       puts e.message
-      result[:errors][:file] = "Invalid file. Could not read file"
-      return result
+      raise InvalidFileException, "Invalid file. Could not read file"
     end
-    #TODO: hay que agregar un rescue por si tiene solo el header
+
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
       if row.present?
@@ -20,13 +20,13 @@ class SpreadsheetManager
           if result.present?
             result[:rows].push("#{i}": result) #TODO: el formato tiene que ser 1: {attributes: {}, errors: {}}
           else
-            result[:rows].push("#{i}": {attributes: {}, errors: {file: "Invalid file header. Could not read header"}})
+            raise InvalidFileHeaderException, "Invalid file header. Could not read header"
           end
         rescue => ex
-          result[:rows].push("#{i}": {attributes: {}, errors: {file: "Wrong number of arguments"}}) #????????? seguro??
+          raise UnreadableRowException, "Wrong number of arguments. Could not read content"
         end
       else
-        result[:rows].push("#{i}": {attributes: {}, errors: {row: "Invalid row. Could not read row"}}) #????????? seguro??
+        raise UnreadableRowException, "Wrong number of arguments. Could not read content"
       end
     end
     
@@ -68,3 +68,7 @@ class SpreadsheetManager
   end
 
 end
+
+class InvalidFileException < Exception; end
+class InvalidFileHeaderException < Exception; end
+class UnreadableRowException < Exception; end

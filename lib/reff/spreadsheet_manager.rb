@@ -1,4 +1,5 @@
 class SpreadsheetManager
+  
   def self.import file, attributes
     result = {}
     result[:rows] = []
@@ -19,7 +20,7 @@ class SpreadsheetManager
         begin
           response = model_attributes(row, attributes)
           if response.present?
-            result[:rows] << {"#{i}": response}
+            result[:rows] << {"#{i - 2}": response}
           else
             raise InvalidFileHeaderException, "Invalid file header. Could not read header"
           end
